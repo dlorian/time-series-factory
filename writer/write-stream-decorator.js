@@ -26,8 +26,6 @@ const write = function (fileName, data, writer) {
 exports.decorate = (writer) => {
     log.debug('Decorating writer: ' + writer);
     return {
-        write: (fileName, data) => async {
-            write(fileName, data, writer)
-        }
+        write: (fileName, data) => write(fileName, data, writer)
     }
 }
