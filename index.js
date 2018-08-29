@@ -26,13 +26,13 @@ const format = result.format || "json";
 const fileName = result.output || "test";
 
 log.info(
-    `You asked me to create a time series from '${start}' to '${end}' with a '${granularity}' granularity. The create time series will be creatd as '${format}' into '${fileName}.${format}'`);
+    `You asked me to create a time series from '${start}' to '${end}' with a '${granularity}' granularity. The time series will be creatd as '${format}' into '${fileName}.${format}'`);
 
 const tsData = factory.create(result.start, result.end, granularity);
 
 writer
     .format(format)
-    .write(fileName, tsData)
+    .write(`${fileName}.${format}`, tsData)
     .then(() => log.info("Your time series has been created successfully."))
     .catch(err =>
         log.error("Something went wrong while creating your file. \n", err)
