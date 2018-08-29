@@ -1,6 +1,6 @@
 const log = require('../logger.js');
 
-const streamWriter = require('./write-stream-decorator.js')
+const streamWriter = require('./write-stream-decorator.js');
 const xmlWriter = require('./xml-writer.js');
 const jsonWriter = require('./json-writer.js');
 
@@ -18,4 +18,4 @@ module.exports = {
         }
         return streamWriter.decorate(writer);
     }
-}
+};

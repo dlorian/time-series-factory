@@ -27,5 +27,5 @@ exports.decorate = (writer) => {
     log.debug('Decorating writer: ' + writer);
     return {
         write: (fileName, data) => write(fileName, data, writer)
-    }
-}
+    };
+};

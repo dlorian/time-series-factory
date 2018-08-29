@@ -1,10 +1,13 @@
-const xmlBuilder = require("xmlbuilder");
+const log = require('../logger.js');
+const xmlBuilder = require('xmlbuilder^');
 
 exports.write = data => {
-  let root = xmlBuilder.create("root");
-  data.forEach(element => {
-    root.ele("tsvalue", { i: element.tsDate }, element.tsValue).end();
-  });
+    log.debug('Writing xml data');
 
-  return root.end({ pretty: true });
+    let root = xmlBuilder.create('root');
+    data.forEach(element => {
+        root.ele('tsvalue', { i: element.tsDate }, element.tsValue).end();
+    });
+
+    return root.end({ pretty: true });
 };
