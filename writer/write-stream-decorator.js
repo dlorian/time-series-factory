@@ -7,9 +7,9 @@ const write = function (fileName, data, writer) {
 
         const ws = fs.createWriteStream(`${fileName}`, { flags: 'w', encoding: 'utf8' });
 
-        const jsonData = writer.write(data);
-        log.debug(`Data to write: \n ${jsonData}`);
-        ws.write(jsonData, (err) => {
+        const result = writer.write(data);
+        log.debug(`Data to write: \n ${result}`);
+        ws.write(result, (err) => {
             ws.close();
 
             if(err) {
