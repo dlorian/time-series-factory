@@ -1,5 +1,5 @@
 const log = require('../logger.js');
-const xmlBuilder = require('xmlbuilder^');
+const xmlBuilder = require('xmlbuilder');
 
 exports.write = data => {
     log.debug('Writing xml data');

@@ -23,11 +23,12 @@ const start = result.start;
 const end = result.end;
 const format = result.format || 'json';
 const fileName = result.output || 'test';
+const dstMode = result.dst || '2424';
 
 log.info(
-    `You asked me to create a time series from '${start}' to '${end}' with a '${granularity}' granularity. The time series will be creatd as '${format}' into '${fileName}.${format}'`);
+    `You asked me to create a time series from '${start}' to '${end}' with a '${granularity}' granularity and DST correction '${dstMode}'. The time series will be creatd as '${format}' into '${fileName}.${format}'`);
 
-const tsData = factory.create(result.start, result.end, granularity);
+const tsData = factory.create(result.start, result.end, { granularity, dstMode });
 
 writer
     .format(format)
