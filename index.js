@@ -1,5 +1,5 @@
 const program = require('./program.js');
-const factory = require('./ts-factory.js');
+const factory = require('./timeseries-factory');
 const writer = require('./writer');
 const log = require('./logger.js');
 
