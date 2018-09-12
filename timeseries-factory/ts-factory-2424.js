@@ -5,7 +5,7 @@ const valueUtil = require('./utils/value-util');
 const create = (stream, startDate, endDate, offset) => {
     let currentDate = startDate;
     do {
-        stream.push({ tsDate: currentDate.toISO(), tsValue: valueUtil.generate() });
+        stream.push({ tsDate: currentDate.toISO(), tsValue: valueUtil.generateFloat() });
         currentDate = currentDate.plus(offset);
     } while (currentDate < endDate);
 

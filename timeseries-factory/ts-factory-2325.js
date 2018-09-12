@@ -27,7 +27,7 @@ const create = (stream, startDate, endDate, offset) => {
                 currentDate = currentDate.minus({ hours: 1 });
             }
         }
-        stream.push({ tsDate: currentDate.toISO(), tsValue: valueUtil.generate() });
+        stream.push({ tsDate: currentDate.toISO(), tsValue: valueUtil.generateFloat() });
 
 
 

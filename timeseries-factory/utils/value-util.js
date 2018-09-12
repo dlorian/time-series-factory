@@ -1,3 +1,6 @@
-exports.generate = () => {
-    return Math.random() * Math.random(10, 100);
+const roundTo = require('round-to');
+const randomFloat = require('random-float');
+
+module.exports = {
+    generateFloat: () => roundTo(randomFloat(10, 100), 3)
 };
