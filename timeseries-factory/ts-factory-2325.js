@@ -1,15 +1,15 @@
-const dateUtils = require('./date-utils');
-const valueGenerator = require('./value-generator');
+const dateUtil = require('./utils/date-util');
+const valueUtil = require('./utils/value-util');
 
-exports.create = (startDate, endDate, offset) => {
-    const tsData = [];
+const Stream = require('stream');
 
+const create = (stream, startDate, endDate, offset) => {
     let currentDate = startDate;
     let octoberShifted = false;
     let marchShifted = false;
 
-    const dstTimeOfMarch = dateUtils.getDstDateTime(currentDate.get('year'), 'march');
-    const dstTimeOfOctober = dateUtils.getDstDateTime(currentDate.get('year'), 'october');
+    const dstTimeOfMarch = dateUtil.getDstDateTime(currentDate.get('year'), 'march');
+    const dstTimeOfOctober = dateUtil.getDstDateTime(currentDate.get('year'), 'october');
 
     do {
         const march = currentDate.month === 3;
@@ -27,11 +27,26 @@ exports.create = (startDate, endDate, offset) => {
                 currentDate = currentDate.minus({ hours: 1 });
             }
         }
-        tsData.push({ tsDate: currentDate.toISO(), tsValue: valueGenerator.generate() });
+        stream.push({ tsDate: currentDate.toISO(), tsValue: valueUtil.generate() });
+
+
 
         currentDate = currentDate.plus(offset);
 
     } while (currentDate < endDate);
 
-    return tsData;
+    stream.push(null);
 };
+
+const stream = (startDate, endDate, offset) => {
+    const stream = new Stream.Readable({
+        objectMode: true,
+        read() { }
+    });
+
+    create(stream, startDate, endDate, offset);
+
+    return stream;
+};
+
+module.exports = { stream };

@@ -1,5 +1,4 @@
-const dateUtils = require('./date-utils');
-
+const dateUtils = require('./utils/date-util');
 const factory2325 = require('./ts-factory-2325');
 const factory2424 = require('./ts-factory-2424');
 
@@ -20,7 +19,7 @@ const factories = {
     get: (mode) => DST_MODE.is2325(mode) ? factory2325 : factory2424
 };
 
-exports.create = (start, end, options) => {
+const stream = (start, end, options) => {
     options = options || {};
     const granulartiy = options.granulartiy || 'HOURLY';
     const dstMode = options.dstMode || '2424';
@@ -36,5 +35,7 @@ exports.create = (start, end, options) => {
         throw new Error(`Granulartiy ${granulartiy} is not defined`);
     }
 
-    return factories.get(dstMode).create(startDate, endDate, offset);
+    return factories.get(dstMode).stream(startDate, endDate, offset);
 };
+
+module.exports = { stream };

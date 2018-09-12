@@ -1,12 +1,26 @@
-const valueGenerator = require('./value-generator');
+const Stream = require('stream');
 
-exports.create = (startDate, endDate, offset) => {
-    const tsData = [];
+const valueUtil = require('./utils/value-util');
+
+const create = (stream, startDate, endDate, offset) => {
     let currentDate = startDate;
     do {
-        tsData.push({ tsDate: currentDate.toISO(), tsValue: valueGenerator.generate() });
+        stream.push({ tsDate: currentDate.toISO(), tsValue: valueUtil.generate() });
         currentDate = currentDate.plus(offset);
     } while (currentDate < endDate);
 
-    return tsData;
+    stream.push(null);
 };
+
+const stream = (startDate, endDate, offset) => {
+    const stream = new Stream.Readable({
+        objectMode: true,
+        read() { }
+    });
+
+    create(stream, startDate, endDate, offset);
+
+    return stream;
+};
+
+module.exports = { stream };
