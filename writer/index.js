@@ -12,6 +12,7 @@ const writers = {
 module.exports = {
     format: (format) => {
         log.debug(`Find writer for format ${format}`);
+        
         const writer = writers[format];
         if(!writer) {
             throw new Error(`Format ${format} not supported`);

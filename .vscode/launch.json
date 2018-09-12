@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Programm starten",
-            "program": "${workspaceFolder}\\times-series-factory.js"
+            "program": "${workspaceFolder}\\index.js"
         }
     ]
 }

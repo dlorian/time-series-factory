@@ -1,6 +1,38 @@
-const log = require('../logger.js');
+const { Transform } = require('stream');
 
-exports.write = (data) => {
-    log.debug('Writing json data');
+const write = (stream, data) => {
     return JSON.stringify(data, null, 2);
 };
+
+const _transform = (data, firstChunk) => {
+    return `${firstChunk ? '' : ','}{
+    "date": "${data.tsDate}",
+    "value": ${data.tsValue}
+}`;
+};
+
+const stream = () => {
+    let firstChunk = true;
+    const stream = new Transform({
+        objectMode: true,
+
+        transform: (data, encoding, done) => {
+            const result = _transform(data, firstChunk);
+            firstChunk = false;
+            done(null, result);
+        },
+
+        final: done => {
+            stream.push(']');
+            done(null);
+        }
+    });
+
+    stream.on('pipe', () => {
+        stream.push('[');
+    });
+
+    return stream;
+};
+
+module.exports = { write, stream };
