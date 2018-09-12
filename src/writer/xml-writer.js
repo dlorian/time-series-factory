@@ -1,15 +1,4 @@
-const xmlBuilder = require('xmlbuilder');
-
-const Stream = require('stream');
-
-const write = (stream, data) => {
-    let root = xmlBuilder.create('root');
-    data.forEach(element => {
-        root.ele('tsvalue', { i: element.tsDate }, element.tsValue).end();
-    });
-
-    return root.end({ pretty: true });
-};
+const { Transform } = require('stream');
 
 const _transform = (data) => {
     return `
@@ -17,7 +6,7 @@ const _transform = (data) => {
 };
 
 const stream = () => {
-    const stream = new Stream.Transform({
+    const stream = new Transform({
         objectMode: true,
 
         transform: (data, _, done) => {
@@ -37,4 +26,4 @@ const stream = () => {
     return stream;
 };
 
-module.exports = { write, stream };
+module.exports = { stream };

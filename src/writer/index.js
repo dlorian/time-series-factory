@@ -1,8 +1,8 @@
 const log = require('../logger.js');
 
-const streamWriter = require('./write-stream-decorator.js');
 const xmlWriter = require('./xml-writer.js');
 const jsonWriter = require('./json-writer.js');
+const streamWriter = require('./write-stream-decorator.js');
 
 const writers = {
     'json': jsonWriter,
@@ -17,6 +17,7 @@ module.exports = {
         if(!writer) {
             throw new Error(`Format ${format} not supported`);
         }
+
         return streamWriter.decorate(writer);
     }
 };

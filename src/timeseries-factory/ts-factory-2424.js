@@ -1,6 +1,6 @@
-const Stream = require('stream');
-
 const valueUtil = require('./utils/value-util');
+
+const { Readable } = require('stream');
 
 const create = (stream, startDate, endDate, offset) => {
     let currentDate = startDate;
@@ -13,7 +13,7 @@ const create = (stream, startDate, endDate, offset) => {
 };
 
 const stream = (startDate, endDate, offset) => {
-    const stream = new Stream.Readable({
+    const stream = new Readable({
         objectMode: true,
         read() { }
     });

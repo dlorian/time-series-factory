@@ -1,9 +1,5 @@
 const { Transform } = require('stream');
 
-const write = (stream, data) => {
-    return JSON.stringify(data, null, 2);
-};
-
 const _transform = (data, firstChunk) => {
     return `${firstChunk ? '' : ','}{
     "date": "${data.tsDate}",
@@ -35,4 +31,4 @@ const stream = () => {
     return stream;
 };
 
-module.exports = { write, stream };
+module.exports = { stream };

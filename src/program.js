@@ -1,6 +1,5 @@
-const program = require('commander');
-
 const log = require('./logger.js');
+const program = require('commander');
 
 program
     .version('0.1.0')

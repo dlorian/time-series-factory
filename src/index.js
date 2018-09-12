@@ -1,4 +1,4 @@
-const program = require('./program.js');
+const {parse} = require('./program.js');
 const tsFactory = require('./timeseries-factory');
 const writer = require('./writer');
 const log = require('./logger.js');
@@ -39,6 +39,4 @@ const process = (input) => {
         );
 };
 
-
-const result = program.parse(process.argv);
-process(result);
+process(parse(process.argv));
