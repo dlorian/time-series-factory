@@ -1,14 +1,20 @@
+const chalk = require('chalk');
+const log = console.log;
 
-const debug = (message) => {
-    console.debug(message);
+const infoStyle = chalk.bold.white;
+const debugStyle = chalk.bold.yellow;
+const errorStyle = chalk.bold.red;
+
+const info = (message, ...args) => {
+    log(infoStyle(message, args));
 };
 
-const info = (message) => {
-    console.info(message);
+const debug = (message, ...args) => {
+    log(debugStyle(message, args));
 };
 
 const error = (message, err) => {
-    console.error(message, err);
+    log(errorStyle(message, err));
 };
 
 module.exports = { debug, info, error };

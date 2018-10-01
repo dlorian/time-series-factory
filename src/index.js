@@ -1,4 +1,4 @@
-const { parse } = require('./program.js');
+const cli = require('./cli/index.js');
 
 const log = require('./logger.js');
 const writer = require('./writer');
@@ -7,25 +7,26 @@ const tsFactory = require('@dlorian/ts-factory');
 const granularityMapping = {
     '1d': 'DAILY',
     '1h': 'HOURLY',
-    '15m': 'QUARTER_HOURLY'
+    '15min': 'QUARTER_HOURLY'
 };
 
-const process = input => {
+const process = answers => {
+    log.debug('You answers are {}', answers);
+
     let granularity = 'DAILY';
-    if (input.granularity) {
-        granularity = granularityMapping[input.granularity];
+    if (answers.granularity) {
+        granularity = granularityMapping[answers.granularity];
         if (!granularity) {
-            throw new Error(`Granularity ${granularity} not supported`);
+            throw new Error(`Granularity '${granularity}' not supported`);
         }
     }
 
-    const fileName = input.output || 'test';
+    const fileName = answers.output || 'test';
 
     const tsOptions = {
-        start: input.start,
-        end: input.end,
-        format: input.format || 'json',
-        dstMode: input.dst || '2424'
+        start: answers.start,
+        end: answers.end,
+        format: answers.format || 'json'
     };
 
     log.info(
@@ -49,4 +50,8 @@ const process = input => {
         );
 };
 
-process(parse(process.argv));
+cli.run()
+    .then(process)
+    .catch(err =>
+        log.error('Something unexpected happend. We are so sorry.', err)
+    );
