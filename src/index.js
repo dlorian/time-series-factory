@@ -1,4 +1,4 @@
-const cli = require('./cli/index.js');
+const cli = require('./cli/commander/program.js');
 
 const log = require('./logger.js');
 const writer = require('./writer');
@@ -10,31 +10,31 @@ const granularityMapping = {
     '15min': 'QUARTER_HOURLY'
 };
 
+const createFileName = options => {
+    const stripDashes = string => string.replace(/-/g, '');
+    return `ts-${options.granularity.toLowerCase()}-${stripDashes(options.start)}-${stripDashes(options.end)}`;
+};
+
 const process = answers => {
     log.debug('You answers are {}', answers);
 
-    let granularity = 'DAILY';
-    if (answers.granularity) {
-        granularity = granularityMapping[answers.granularity];
-        if (!granularity) {
-            throw new Error(`Granularity '${granularity}' not supported`);
-        }
-    }
-
-    const fileName = answers.output || 'test';
+    const granularity = granularityMapping[answers.granularity];
 
     const tsOptions = {
         start: answers.start,
         end: answers.end,
-        format: answers.format || 'json'
+        format: answers.format || 'json',
+        granularity: granularity || 'daily'
     };
+
+    const fileName = answers.output || createFileName(tsOptions);
 
     log.info(
         `You asked me to create a time series from '${tsOptions.start}' to '${
             tsOptions.end
-        }' with a '${tsOptions.granularity}' granularity and DST correction '${
-            tsOptions.dstMode
-        }'. The time series will be creatd as '${
+        }' with a '${
+            tsOptions.granularity
+        }' granularity. The time series will be creatd as '${
             tsOptions.format
         }' into '${fileName}.${tsOptions.format}'`
     );
@@ -52,6 +52,7 @@ const process = answers => {
 
 cli.run()
     .then(process)
-    .catch(err =>
-        log.error('Something unexpected happend. We are so sorry.', err)
-    );
+    .catch(err => {
+        log.error('Something unexpected happend. We are so sorry.', err);
+        process.exit(1);
+    });

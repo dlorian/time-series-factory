@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 const questions = require('./questions');
-const log = require('../logger');
+const log = require('../../logger');
 
 const prompt = (resolve, reject) => {
     log.info(
