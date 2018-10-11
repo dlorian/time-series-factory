@@ -1,6 +1,9 @@
 test/
 
-.eslintrc
+.eslintrc.yml
+.travis.yml
+
+sonar-project.properties
 
 # Output of 'npm pack'
 *.tgz
