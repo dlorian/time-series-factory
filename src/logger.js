@@ -6,7 +6,7 @@ const debugStyle = chalk.bold.yellow;
 const errorStyle = chalk.bold.red;
 
 const info = (message, ...args) => {
-    log(infoStyle(message, args));
+    log(message, args);
 };
 
 const debug = (message, ...args) => {

@@ -15,8 +15,8 @@ const createFileName = options => {
     return `ts-${options.granularity.toLowerCase()}-${stripDashes(options.start)}-${stripDashes(options.end)}`;
 };
 
-const process = answers => {
-    log.debug('You answers are {}', answers);
+const exec = answers => {
+    log.debug('You answers are: ', JSON.stringify(answers));
 
     const granularity = granularityMapping[answers.granularity];
 
@@ -50,9 +50,11 @@ const process = answers => {
         );
 };
 
-cli.run()
-    .then(process)
+exports.run = () => {
+    cli.run()
+    .then(exec)
     .catch(err => {
-        log.error('Something unexpected happend. We are so sorry.', err);
+        log.error('Something unexpected happend. We are sooo sorry.', err);
         process.exit(1);
     });
+};
