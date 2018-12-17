@@ -1,7 +1,4 @@
-const inquirer = require('./cli/inquirer');
-const commander = require('./cli/commander/program.js');
-const cli = { commander, inquirer };
-
+const cli = require('./cli');
 const log = require('./logger.js');
 const writer = require('./writer');
 const tsFactory = require('@dlorian/ts-factory');
@@ -17,7 +14,7 @@ const createFileName = options => {
     return `ts-${options.granularity.toLowerCase()}-${stripDashes(options.start)}-${stripDashes(options.end)}`;
 };
 
-const exec = answers => {
+const cliCallback = answers => {
     log.debug('You answers are: ', JSON.stringify(answers));
 
     const granularity = granularityMapping[answers.granularity];
@@ -29,41 +26,22 @@ const exec = answers => {
         granularity: granularity || 'daily'
     };
 
-    const fileName = answers.output || createFileName(tsOptions);
-
-    log.info(`You asked me to create a time series from '${tsOptions.start}' to '${tsOptions.end}' with a '${tsOptions.granularity}' granularity. The time series will be creatd as '${tsOptions.format}' into '${fileName}.${tsOptions.format}'`);
-
+    log.info(`You asked me to create a time series from '${tsOptions.start}' to '${tsOptions.end}' with a '${tsOptions.granularity}' granularity.`);
     const tsStream = tsFactory.stream(tsOptions);
+
+    const fileName = answers.output || createFileName(tsOptions);
+    log.info(`The time series will be creatd as '${tsOptions.format}' into '${fileName}.${tsOptions.format}`);
 
     writer
         .decorate(tsStream)
-        .write(`${fileName}.${tsOptions.format}`)
-        .then(() => log.info('Your time series has been created successfully.'))
-        .catch(err =>
-            log.error('Something went wrong while creating your file. \n', err)
-        );
+        .writeTo(`${fileName}.${tsOptions.format}`);
 };
 
 module.exports = {
     commander: {
-        run: () => {
-            cli['commander'].run()
-                .then(exec)
-                .catch(err => {
-                    log.error('Something unexpected happend. We are sooo sorry.', err);
-                    process.exit(1);
-                });
-        }
+        run: () => cli['commander'].run(cliCallback)
     },
-
     inquirer: {
-        run: () => {
-            cli['inquirer'].run()
-                .then(exec)
-                .catch(err => {
-                    log.error('Something unexpected happend. We are sooo sorry.', err);
-                    process.exit(1);
-                });
-        }
+        run: () => cli['inquirer'].run(cliCallback)
     }
 };
