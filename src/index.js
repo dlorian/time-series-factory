@@ -1,4 +1,6 @@
-const cli = require('./cli/commander/program.js');
+const inquirer = require('./cli/inquirer');
+const commander = require('./cli/commander/program.js');
+const cli = { commander, inquirer };
 
 const log = require('./logger.js');
 const writer = require('./writer');
@@ -29,15 +31,7 @@ const exec = answers => {
 
     const fileName = answers.output || createFileName(tsOptions);
 
-    log.info(
-        `You asked me to create a time series from '${tsOptions.start}' to '${
-            tsOptions.end
-        }' with a '${
-            tsOptions.granularity
-        }' granularity. The time series will be creatd as '${
-            tsOptions.format
-        }' into '${fileName}.${tsOptions.format}'`
-    );
+    log.info(`You asked me to create a time series from '${tsOptions.start}' to '${tsOptions.end}' with a '${tsOptions.granularity}' granularity. The time series will be creatd as '${tsOptions.format}' into '${fileName}.${tsOptions.format}'`);
 
     const tsStream = tsFactory.stream(tsOptions);
 
@@ -50,11 +44,26 @@ const exec = answers => {
         );
 };
 
-exports.run = () => {
-    cli.run()
-    .then(exec)
-    .catch(err => {
-        log.error('Something unexpected happend. We are sooo sorry.', err);
-        process.exit(1);
-    });
+module.exports = {
+    commander: {
+        run: () => {
+            cli['commander'].run()
+                .then(exec)
+                .catch(err => {
+                    log.error('Something unexpected happend. We are sooo sorry.', err);
+                    process.exit(1);
+                });
+        }
+    },
+
+    inquirer: {
+        run: () => {
+            cli['inquirer'].run()
+                .then(exec)
+                .catch(err => {
+                    log.error('Something unexpected happend. We are sooo sorry.', err);
+                    process.exit(1);
+                });
+        }
+    }
 };

@@ -16,6 +16,7 @@
   },
   "preferGlobal": true,
   "bin": {
-    "tsf": "./bin/tsf.js"
+    "tsf": "./bin/tsf.js",
+    "tsfi": "./bin/tsfi.js"
   }
 }

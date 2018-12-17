@@ -1,16 +1,15 @@
 const chalk = require('chalk');
 const log = console.log;
 
-const infoStyle = chalk.bold.white;
 const debugStyle = chalk.bold.yellow;
 const errorStyle = chalk.bold.red;
 
-const info = (message, ...args) => {
-    log(message, args);
+const info = (message) => {
+    log(message);
 };
 
-const debug = (message, ...args) => {
-    log(debugStyle(message, args));
+const debug = (message) => {
+    log(debugStyle(message));
 };
 
 const error = (message, err) => {

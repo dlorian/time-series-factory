@@ -4,7 +4,7 @@ const log = require('../../logger');
 
 const prompt = (resolve, reject) => {
     log.info(
-        'Welcome to ts-factory-cli. You are able to create a time series now.'
+        'Welcome to tsf (ts-factory-cli). You are able to create a time series now.'
     );
 
     inquirer
