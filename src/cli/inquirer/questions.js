@@ -4,7 +4,7 @@ module.exports = [
     {
         type: 'input',
         name: 'start',
-        message: 'What should it start (YYYY-MM-DD)?'
+        message: 'When should it start (YYYY-MM-DD)?'
     },
     {
         type: 'input',
@@ -14,14 +14,14 @@ module.exports = [
     {
         type: 'list',
         name: 'granularity',
-        message: 'Wich granularity do you like?',
+        message: 'Which granularity do you like?',
         choices: ['15min', '1h', '1d'],
         default: ['1h']
     },
     {
         type: 'list',
         name: 'format',
-        message: 'What format do you prefer?',
+        message: 'Which format do you prefer?',
         choices: ['json', 'xml', 'csv'],
         default: ['json']
     },

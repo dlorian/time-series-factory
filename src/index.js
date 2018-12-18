@@ -1,7 +1,8 @@
 const cli = require('./cli');
 const log = require('./logger.js');
+const factory = require('./factory');
 const writer = require('./writer');
-const tsFactory = require('@dlorian/ts-factory');
+
 
 const granularityMapping = {
     '1d': 'DAILY',
@@ -15,7 +16,7 @@ const createFileName = options => {
 };
 
 const cliCallback = answers => {
-    log.debug('You answers are: ', JSON.stringify(answers));
+    log.init(answers.debug);
 
     const granularity = granularityMapping[answers.granularity];
 
@@ -26,15 +27,13 @@ const cliCallback = answers => {
         granularity: granularity || 'daily'
     };
 
-    log.info(`You asked me to create a time series from '${tsOptions.start}' to '${tsOptions.end}' with a '${tsOptions.granularity}' granularity.`);
-    const tsStream = tsFactory.stream(tsOptions);
+    tsOptions.fileName = answers.output || createFileName(tsOptions);
 
-    const fileName = answers.output || createFileName(tsOptions);
-    log.info(`The time series will be creatd as '${tsOptions.format}' into '${fileName}.${tsOptions.format}`);
+    log.debug(`You time series will be created according to this: ${JSON.stringify(tsOptions, null, 2)}`);
 
     writer
-        .decorate(tsStream)
-        .writeTo(`${fileName}.${tsOptions.format}`);
+        .writeTo(tsOptions.fileName, tsOptions.format)
+        .decorate(factory.stream(tsOptions));
 };
 
 module.exports = {

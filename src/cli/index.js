@@ -1,11 +1,12 @@
 const inquirer = require('./inquirer');
-const commander = require('./commander/program.js');
+const commander = require('./commander');
 
 const log = require('../logger.js');
 
-const execute = (cli, callback) => {
-    log.debug(`Running ${cli} cli`);
-    cli.run()
+const execute = (cliRunner, callback) => {
+    log.debug(`Running ${cliRunner} cli`);
+    
+    cliRunner.run()
         .then(callback)
         .catch(err => {
             log.error('Something unexpected happend. We are sooo sorry.', err);

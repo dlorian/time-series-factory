@@ -5,6 +5,7 @@ const pkg = require('../../../package.json');
 
 program
     .version(pkg.version)
+    .option('-d, --debug', 'Activate debug logging')
     .option('-s, --start <start>', 'Start date of the time series (YYYY-MM-DD)')
     .option('-e, --end <end>', 'End date of the time series (YYYY-MM-DD)')
     .option(
@@ -34,6 +35,7 @@ const run = () => {
             );
             reject(new Error('Invalid Command'));
         }
+
         resolve(result);
     });
 };
