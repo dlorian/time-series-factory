@@ -38,9 +38,9 @@ module.exports = [
             log.info(
                 `You like to create a time series from '${answers.start}' to '${
                     answers.start
-                }' with granulairty '${
+                }' with a granularity of '${
                     answers.granularity
-                }'. This should be stored to '${answers.output}' as '${
+                }'. This should be stored to file '${answers.output}' as '${
                     answers.format
                 }'. Is this correct?`
             );
