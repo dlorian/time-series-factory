@@ -1,12 +1,12 @@
 {
   "name": "@dlorian/ts-factory-cli",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "CLI wrapper for ts-factory",
   "main": "index.js",
   "author": "dlorian",
   "license": "ISC",
   "dependencies": {
-    "@dlorian/ts-factory": "1.0.0",
+    "@dlorian/ts-factory": "1.0.1",
     "chalk": "^2.4.1",
     "commander": "^2.17.1",
     "inquirer": "^6.2.0"
